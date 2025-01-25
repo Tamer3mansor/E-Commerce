@@ -90,6 +90,8 @@ try {
                         <li class="list-group-item"> <a href="index.php?id=<?= $category['id'] ?>" }>
                                 <?= $category['name'] ?> </a></li>
                     <?php } ?>
+                    <li class="list-group-item"> <a href="add_category.php">
+                            ADD New Categories </a></li>
                 </ul>
             </div>
         </div>
@@ -114,9 +116,30 @@ try {
                             <td><?= htmlspecialchars($order['status']); ?></td>
                             <td>
                                 <a href="view_order.php?id=<?= $order['id']; ?>" class="btn btn-info btn-sm">View</a>
-                                <a href="update_order_status.php?id=<?= $order['id']; ?>"
-                                    class="btn btn-primary btn-sm">Update Status</a>
+
+                                <!-- Dropdown for Update Status -->
+                                <div class="dropdown d-inline">
+                                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button"
+                                        id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <?= $order['status']; ?>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <li><a class="dropdown-item"
+                                                href="update_order_status.php?id=<?= $order['id']; ?>&status=Pending">Pending</a>
+                                        </li>
+                                        <li><a class="dropdown-item"
+                                                href="update_order_status.php?id=<?= $order['id']; ?>&status=Completed">Completed</a>
+                                        </li>
+                                        <li><a class="dropdown-item"
+                                                href="update_order_status.php?id=<?= $order['id']; ?>&status=Canceled">Cancelled</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <a href="delete_order.php?id=<?= $order['id']; ?>" class="btn btn-danger btn-sm">Delete
+                                    Order</a>
+
                             </td>
+
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

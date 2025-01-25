@@ -9,9 +9,9 @@ if (!$_SESSION['user_id']) {
 }
 if (isset($_GET['id']) && !empty($_GET['id'])) {
     $product_id = (int) $_GET['id'];
-
     if (isset($_SESSION['user_id'])) {
         $user_id = $_SESSION['user_id'];
+
         $session_id = 0;
     } else {
         $user_id = 0;
@@ -20,19 +20,19 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     //check if have an cart
     $select = $db->select("*");
     $from = $db->from("cart");
-    $where = $db->where("session_id = '$session_id' OR user_id = $user_id  ");
+    $where = $db->where("user_id = $user_id ");
     $result = $db->get($select . $from . $where);
     if ($result) {
-        $select = $db->select("*");
+        $select = $db->select("product_id,quantity");
         $from = $db->from("cart");
-        $where = $db->where("product_id = $product_id AND (user_id = $user_id OR session_id = '$session_id' )");
-        $result = $db->get($select . $from . $where);
-
+        $where = $db->where("product_id = $product_id AND user_id = $user_id    ");
+        $cart_result = $db->get($select . $from . $where);
+        // print_r($cart_result);
     }
     //
 
 
-    if ($result[0]['quantity'] > 0) {
+    if ($cart_result[0]['quantity'] > 0) {
         $row = $result[0];
         $new_quantity = $row['quantity'] + 1;  // زيادة الكمية بمقدار 1
         $row_id = $row['id'];
@@ -45,7 +45,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     }
 
     // إعادة توجيه المستخدم إلى صفحة السلة أو الصفحة الرئيسية بعد إضافة المنتج
-    header("Location: cart.php?show={$product_id}");
+    header("Location: cart.php");
     exit;
 }
 ?>

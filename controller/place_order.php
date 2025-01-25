@@ -9,11 +9,16 @@ if (!$_SESSION['user_id']) {
     exit();
 }
 // التحقق من أن البيانات موجودة
-if (!isset($_POST['shipping_address']) || empty($_POST['shipping_address'])) {
-    die("Shipping address is required.");
+if (!isset($_POST['Address']) || empty($_POST['zip']) || empty($_POST['card_number']) || empty($_POST['card_name'])) {
+    $user_id = $_SESSION['user_id'];
+    header("location:checkout.php?<?=$user_id?>");
 }
 
-$shipping_address = $_POST['shipping_address'];
+$shipping_address = $_POST['Address'];
+$second_address = $_POST['Address2'];
+$zip = $_POST['zip'];
+$card_number = $_POST['card_number'];
+$card_name = $_POST['card_name'];
 $user_id = $_SESSION['user_id'];
 $total_price = 0;
 $cart_items = [];
@@ -35,7 +40,7 @@ foreach ($result as $row) {
 // إنشاء طلب جديد في جدول orders
 // $query = "INSERT INTO orders (user_id, total_price, shipping_address) VALUES ( $user_id, $total_price, $shipping_address)";
 
-$order_id = $db->insert('orders', ["user_id" => $user_id, "total_price" => $total_price, "shipping_address" => $shipping_address]);  // الحصول على معرف الطلب الجديد
+$order_id = $db->insert('orders', ["user_id" => $user_id, "total_price" => $total_price, "shipping_address" => $shipping_address, "second_address" => $second_address, "zip" => $zip, "card_number" => $card_number]);  // الحصول على معرف الطلب الجديد
 
 // إضافة العناصر إلى جدول order_items
 foreach ($cart_items as $item) {
@@ -47,6 +52,6 @@ $query = "DELETE FROM cart WHERE user_id = ? OR session_id = ?";
 $db->delete('cart', ["user_id" => $user_id]);
 
 // إعادة توجيه المستخدم إلى صفحة تأكيد الطلب
-header("Location: order_confirmation.php?order_id=" . $order_id);
+header("Location: orders.php?order_id=" . $order_id);
 exit;
 ?>

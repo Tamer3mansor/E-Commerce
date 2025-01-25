@@ -4,15 +4,14 @@ include '../model/orm_v2.php';
 $db = new orm(['localhost', 'root', '', 'commerce']);
 $db->create_connection();
 // تأكد من أن المستخدم Admin
-// if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-//     header("Location: ../login.php");
-//     exit;
-// }
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+    header("Location: login.php");
+    exit;
+}
 
 // جلب تفاصيل الطلب
 if (isset($_GET['id'])) {
     $order_id = $_GET['id'];
-
     $order_details = $db->get("SELECT * FROM order_details WHERE order_id = $order_id");
 }
 ?>
@@ -48,8 +47,13 @@ if (isset($_GET['id'])) {
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <a href="index.php" class="btn btn-secondary">Back</a>
+
+        <!-- Dropdown for updating the order status -->
+       
+
+        <a href="index.php" class="btn btn-secondary mt-3">Back</a>
     </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

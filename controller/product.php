@@ -67,14 +67,14 @@ function select_images()
     $product_id = $product_result['id'];
     $select = $db->select('image');
     $from = $db->from('images');
-    $where = $db->where(    "product_id = $product_id ");
+    $where = $db->where("product_id = $product_id ");
     return $db->get($select . $from . $where);
 }
 
 $product_result = select_product();
 $comments = select_comments();
 $images[] = select_images();
-// print_r($images);
+$images = $images[0];
 // $user_result = select_user();
 // $tags = select_category();
 // if (isset(select_image()[0]['image_path']))

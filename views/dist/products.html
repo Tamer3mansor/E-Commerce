@@ -29,8 +29,14 @@
                     <ul class="navbar-nav ms-auto py-4 py-lg-0">
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="index.php">Home</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="about.php">About</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="cart.php">myCart</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="contact.php">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="cart.php">MyCart</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="orders.php">My Orders</a></li>
+                        <?php if(isset($_SESSION['user_id'])) {  ?>
+                            <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="logout.php">LogOut</a></li>
+                            <li class="nav-link px-lg-3 py-3 py-lg-4"> <?= ($_SESSION['username']);?></li>     
+                       <?php }else{ ?>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="login.php">Login</a></li>
+                        <?php } ?>
                     </ul>
                 </div>
             </div>
@@ -77,15 +83,15 @@
         
                                 <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel">
                                     <div class="carousel-inner">
-                                        <?php foreach ($images as $index => $img) { ?>
+                                        <?php foreach ($images as $index=>$img)   {?>
                                             <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
-                                                <img width="200" height="150" src="<?= $img[1]['image'] ?>" alt="Slide <?= $index + 1 ?>" class="d-block mx-auto">
+                                                <img width="200" height="150" src="<?= $img['image']?>" alt="Slide <?= $index + 1 ?>" class="d-block mx-auto">
                                             </div>
                                         <?php } ?>
                                     </div>
                                     <button class="carousel-control-prev" type="button" data-bs-target="#imageCarousel" data-bs-slide="prev">
-                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                        <span class="visually-hidden">Previous</span>
+                                        <span class="carousel-control-prev-icon" aria-hidden="false"></span>
+                                        <span class="visually-hidden" style="color: black;">Previous</span>
                                     </button>
                                     <button class="carousel-control-next" type="button" data-bs-target="#imageCarousel" data-bs-slide="next">
                                         <span class="carousel-control-next-icon" aria-hidden="true"></span>

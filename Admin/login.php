@@ -1,7 +1,7 @@
 <?php
 require "../model/orm_v2.php";
 session_start();
-$db = new orm(['localhost', 'root', '', 'blog']);
+$db = new orm(['localhost', 'root', '', 'commerce']);
 $db->create_connection();
 
 function validate($email, $psw)
@@ -39,6 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST') {
     $errors = validate($email, $psw);
     if (empty($errors)) {
         $result = select_users($email);
+        print_r($result);
         if ($result) {
             $db_psw = $result['password'];
             $db_type = $result['type'];

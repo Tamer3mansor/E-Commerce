@@ -43,5 +43,4 @@ $categories_result = $db->get($query);
 //images 
 
 require "../views/dist/index.html";
-
 ?>
