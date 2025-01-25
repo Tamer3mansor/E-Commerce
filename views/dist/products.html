@@ -54,7 +54,6 @@
         </header>
         
 
-        <!-- Post Content-->
         <article class="mb-4">
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
@@ -128,7 +127,15 @@
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
                     <h3>What is People says about this product</h3>
-
+                    <div id="commentsSection">
+                        <?php foreach ($comments as $comment): ?>
+                            <div class="comment mb-4 p-3 border rounded">
+                                <p class="mb-1"><strong><?= isset($comment['author']) ? $comment['author'] : "User" ?>:</strong></p>
+                                <p class="text-muted mb-0"><?= htmlspecialchars($comment['content']) ?></p>
+                                <small class="text-muted">Posted on <?= date("Y-m-d", strtotime($comment['created_at'])) ?></small>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
                     <!-- Comment Form -->
                     <form id="commentForm" method="POST" action="submit_comment.php" class="mb-4">
                         <div class="mb-3">
@@ -140,15 +147,7 @@
                     </form>
 
                     <!-- Display Comments -->
-                    <div id="commentsSection">
-                        <?php foreach ($comments as $comment): ?>
-                            <div class="comment mb-4 p-3 border rounded">
-                                <p class="mb-1"><strong><?= isset($comment['author']) ? $comment['author'] : "Reader" ?>:</strong></p>
-                                <p class="text-muted mb-0"><?= htmlspecialchars($comment['content']) ?></p>
-                                <small class="text-muted">Posted on <?= date("Y-m-d", strtotime($comment['created_at'])) ?></small>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
+                  
                 </div>
             </div>
         </div>

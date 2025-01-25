@@ -75,7 +75,7 @@ $order = $result[0];
             <thead class="table-dark">
 
                 <tr>
-                    <th> product ame</th>
+                    <th> product name</th>
                     <th>product Price</th>
                     <th>quantity</th>
                 </tr>

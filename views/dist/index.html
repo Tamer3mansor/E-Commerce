@@ -43,7 +43,7 @@
             </div>
         </nav>
         <!-- Page Header-->
-        <header class="masthead" style="background-image: url('/clean_blog/site/views/dist/assets/img/home-bg.jpg')">
+        <header class="masthead" style="background-image: url('/commerce/views/dist/assets/img/home2.jpg')">
             <div class="container position-relative px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
@@ -72,7 +72,7 @@
                                         <h6 class="card-subtitle mb-2 text-muted"><?= $product['price'] ?></h6>
                                         <p class="card-text"><?= $product['description'] ?></p>
                                         <!-- <a href="#" class="card-link">Add to cart</a> -->
-                                        <a href="product.php?id=<?= $product['id'] ?>" class="btn">More details</a>
+                                        <a href="product.php?id=<?= $product['id'] ?>" class="btn btn-primary">More details</a>
                                     </div>
                                 </div>
                             </div>
@@ -86,9 +86,9 @@
                             Categories
                         </div>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item"> <a href="index.php"> All Products </a></li>
+                            <li class="btn btn-light"> <a href="index.php"> All Products </a></li>
                             <?php foreach ($categories_result as $category) { ?>
-                            <li class="list-group-item"> <a href="index.php?id=<?=$category['id']?>"}> <?= $category['name']?> </a></li>
+                            <li class="btn btn-light"> <a href="index.php?id=<?=$category['id']?>"}> <?= $category['name']?> </a></li>
                             <?php }?>
                         </ul>
                     </div>
@@ -128,7 +128,7 @@
                                 </a>
                             </li>
                         </ul>
-                        <div class="small text-center text-muted fst-italic">Copyright &copy; Your Website 2024</div>
+                        <div class="small text-center text-muted fst-italic">Copyright &copy; Your Website 2025</div>
                     </div>
                 </div>
             </div>
