@@ -23,11 +23,12 @@
                   <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="about.php">About</a></li>
                   <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="cart.php">MyCart</a></li>
                   <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="orders.php">My Orders</a></li>
-                  <?php if(isset($_SESSION['user_id'])) {  ?>
+                  <?php if (isset($_SESSION['user_id']) &&($_SESSION['role'] =='customer') ) {
+                    ?>
                       <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="logout.php">LogOut</a></li>
                       <li class="nav-link px-lg-3 py-3 py-lg-4"> <?= ($_SESSION['username']);?></li>     
                  <?php }else{ ?>
-                  <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="login.php">Login</a></li>
+                  <!-- <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="login.php">Login</a></li> -->
                   <?php } ?>
               </ul>
           </div>

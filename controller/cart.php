@@ -5,7 +5,7 @@ session_start();
 $db = new orm(['localhost', 'root', '', 'commerce']);
 $db->create_connection();
 $error = [];
-if (!$_SESSION['user_id']) {
+if (!$_SESSION['user_id'] ||($_SESSION['role']!='customer') ) {
     header('location:login.php');
     exit();
 }
@@ -43,124 +43,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update'])) {
     header("Location: cart.php");
     exit;
 }
+require "../views/dist/cart.html";
 ?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cart</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-
-<body>
-    <!-- Start of Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
-            <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="index.php">E-Commerce</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                    Menu
-                    <i class="fas fa-bars"></i>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ms-auto py-4 py-lg-0">
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="index.php">Home</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="about.php">About</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="cart.php">MyCart</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="orders.php">My Orders</a></li>
-                        <?php if(isset($_SESSION['user_id'])) {  ?>
-                            <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="logout.php">LogOut</a></li>
-                            <li class="nav-link px-lg-3 py-3 py-lg-4"> <?= ($_SESSION['username']);?></li>     
-                       <?php }else{ ?>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="login.php">Login</a></li>
-                        <?php } ?>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    <!-- End of Navbar -->
-
-    <div class="container mt-5">
-        <?php if (isset($error['stock'])): ?>
-            <div class="alert alert-warning"><?= htmlspecialchars($error['stock']); ?></div>
-        <?php endif; ?>
-        <h1 class="text-center">Your Cart</h1>
-        <form method="POST" action="">
-            <table class="table table-striped table-bordered table-responsive-sm">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Product</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Total</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $grand_total = 0; ?>
-                    <?php foreach ($cart_items as $item):
-                        $product_id = $item['product_id'];
-                        $stock = $item['stock'];
-                        $quantity = $item['quantity'];
-                        $total = $item['price'] * $quantity;
-                        $grand_total += $total;
-                        ?>
-                        <tr>
-                            <td><?= htmlspecialchars($item['name']); ?></td>
-                            <td>$<?= number_format($item['price'], 2); ?></td>
-                            <td>
-                                <input type="number" name="quantities[<?= $product_id; ?>]" value="<?= $quantity; ?>"
-                                    min="1" max="<?= $stock ?>" class="form-control">
-                            </td>
-                            <td>$<?= number_format($total, 2); ?></td>
-                            <td>
-                                <!-- Modal Trigger for Remove -->
-                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                    data-bs-target="#removeModal<?= $product_id; ?>">
-                                    Remove
-                                </button>
-
-                                <!-- Modal for Remove Confirmation -->
-                                <div class="modal fade" id="removeModal<?= $product_id; ?>" tabindex="-1"
-                                    aria-labelledby="removeModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="removeModalLabel">Confirm Removal</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                Are you sure you want to remove <?= htmlspecialchars($item['name']); ?> from
-                                                your cart?
-                                            </div>
-                                            <div class="modal-footer">
-                                                <a href="cart.php?remove=<?= $product_id; ?>" class="btn btn-danger">Yes,
-                                                    Remove</a>
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Cancel</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-
-            <div class="d-flex justify-content-between align-items-center mt-4">
-                <h3>Total: $<?= number_format($grand_total, 2); ?></h3>
-                <div>
-                    <button type="submit" name="update" class="btn btn-warning">Update Cart</button>
-                    <a href="checkout.php" class="btn btn-success">Proceed to Checkout</a>
-                </div>
-            </div>
-        </form>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
-</html>

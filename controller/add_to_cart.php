@@ -3,7 +3,7 @@ require "../model/orm_v2.php";
 session_start();
 $db = new orm(['localhost', 'root', '', 'commerce']);
 $db->create_connection();
-if (!$_SESSION['user_id']) {
+if (!$_SESSION['user_id'] ||($_SESSION['role']!='customer') ) {
     header('location:login.php');
     exit();
 }
@@ -44,7 +44,6 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
     }
 
-    // إعادة توجيه المستخدم إلى صفحة السلة أو الصفحة الرئيسية بعد إضافة المنتج
     header("Location: cart.php");
     exit;
 }

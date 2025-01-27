@@ -30,7 +30,7 @@ try {
     $query .= $select . $from;
     $categories_result = $db->get($query);
     //orders 
-    $orders = $db->get('Select * from orders');
+    $orders = $db->get('Select * from orders order by created_at desc');
 } catch (mysqli_sql_exception) {
     echo "Error: " . mysqli_error($db->create_connection());
 }
@@ -84,13 +84,13 @@ try {
                     Categories
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"> <a href="index.php">
+                    <li class="btn btn-light"> <a href="index.php">
                             All Categories </a></li>
                     <?php foreach ($categories_result as $category) { ?>
-                        <li class="list-group-item"> <a href="index.php?id=<?= $category['id'] ?>" }>
+                        <li class= "btn btn-light"> <a href="index.php?id=<?= $category['id'] ?>" }>
                                 <?= $category['name'] ?> </a></li>
                     <?php } ?>
-                    <li class="list-group-item"> <a href="add_category.php">
+                    <li class="btn btn-light"> <a href="add_category.php">
                             ADD New Categories </a></li>
                 </ul>
             </div>

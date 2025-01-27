@@ -4,7 +4,7 @@ session_start();
 $db = new orm(['localhost', 'root', '', 'commerce']);
 $db->create_connection();
 $error = [];
-if (!$_SESSION['user_id']) {
+if (!$_SESSION['user_id'] || ($_SESSION['role'] != 'customer')) {
     header('location:login.php');
     exit();
 }
@@ -37,21 +37,16 @@ foreach ($result as $row) {
     $cart_items[] = $row;
 }
 
-// إنشاء طلب جديد في جدول orders
-// $query = "INSERT INTO orders (user_id, total_price, shipping_address) VALUES ( $user_id, $total_price, $shipping_address)";
 
 $order_id = $db->insert('orders', ["user_id" => $user_id, "total_price" => $total_price, "shipping_address" => $shipping_address, "second_address" => $second_address, "zip" => $zip, "card_number" => $card_number]);  // الحصول على معرف الطلب الجديد
 
-// إضافة العناصر إلى جدول order_items
 foreach ($cart_items as $item) {
     $order_id = $db->insert('order_details', ["order_id" => $order_id, "product_id" => $item['product_id'], "quantity" => $item['quantity'], "price" => $item['price']]);  // الحصول على معرف الطلب الجديد
 }
 
-// حذف العناصر من السلة بعد إتمام الطلب
 $query = "DELETE FROM cart WHERE user_id = ? OR session_id = ?";
 $db->delete('cart', ["user_id" => $user_id]);
 
-// إعادة توجيه المستخدم إلى صفحة تأكيد الطلب
 header("Location: orders.php?order_id=" . $order_id);
 exit;
 ?>

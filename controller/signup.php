@@ -40,9 +40,13 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST') {
     $hash = password_hash($psw, PASSWORD_DEFAULT, ['cost']);
     if (empty($errors)) {
         $result = $db->insert('users', ["username" => $name, "email" => $email, "password" => $hash, "role" => 'customer']);
-        $_SESSION['user_id'] = $result['id'];
-        $_SESSION['username'] = $result['username'];
-        $_SESSION['role'] = 'customer';
+        if (is_int($result)) {
+            $_SESSION['user_id'] = $result;
+            $_SESSION['username'] = $name;
+            $_SESSION['role'] = 'customer';
+            echo $_SESSION['user_id'], $_SESSION['user_name'], $_SESSION['role'];
+        }
+
         if ($result == 'Duplicate email')
             $errors['email'] = 'This email used before';
         if ($result) {
