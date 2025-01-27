@@ -15,7 +15,7 @@ print_r($_GET);
 // تحديث حالة الطلب
 if (isset($_GET['id'])) {
     $order_id = $_GET['id'];
-
+    // $db->get("SET FOREIGN_KEY_CHECKS = 0;");
     $db->delete("orders", ["id" => $order_id]);
 }
 header("Location:index.php");

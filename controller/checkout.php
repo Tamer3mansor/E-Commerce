@@ -18,7 +18,7 @@ $query = "SELECT c.*, p.name, p.price FROM cart c
           WHERE c.user_id = $user_id";
 
 $result = $db->get($query);
-
+// print_r($_POST['save']);
 // Calculate total price
 $total_price = 0;
 $cart_items = [];

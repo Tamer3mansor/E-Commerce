@@ -32,7 +32,7 @@ class orm
     // execute query (not used)
     public function get($query)
     {
-        
+
         $this->result = mysqli_query($this->connection, $query);
         if ($this->result)
             return mysqli_fetch_all($this->result, MYSQLI_ASSOC);
@@ -154,6 +154,7 @@ class orm
     }
     public function delete($table = "", $where = [])
     {
+        mysqli_query($this->connection, "    SET FOREIGN_KEY_CHECKS = 0;");
         $table = $this->input_validate($table);
         $query = "DELETE  from $table ";
         if (!empty($where)) {
@@ -174,6 +175,7 @@ class orm
         }
         $this->result = $stmt->execute();
         if ($this->result) {
+            mysqli_query($this->connection, "    SET FOREIGN_KEY_CHECKS = 1;");
 
             return $this->result;
         } else {
